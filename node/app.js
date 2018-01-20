@@ -1,39 +1,65 @@
-var port = process.env.PORT || 3000,
-    http = require('http'),
-    fs = require('fs'),
-    html = fs.readFileSync('index.html');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
 
-var log = function(entry) {
-    fs.appendFileSync('/tmp/sample-app.log', new Date().toISOString() + ' - ' + entry + '\n');
-};
+var index = require('./routes/index');
+var users = require('./routes/users');
 
-var server = http.createServer(function (req, res) {
-    if (req.method === 'POST') {
-        var body = '';
+var app = express();
 
-        req.on('data', function(chunk) {
-            body += chunk;
-        });
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-        req.on('end', function() {
-            if (req.url === '/') {
-                log('Received message: ' + body);
-            } else if (req.url = '/scheduled') {
-                log('Received task ' + req.headers['x-aws-sqsd-taskname'] + ' scheduled at ' + req.headers['x-aws-sqsd-scheduled-at']);
-            }
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-            res.writeHead(200, 'OK', {'Content-Type': 'text/plain'});
-            res.end();
-        });
-    } else {
-        res.writeHead(200);
-        res.write(html);
-        res.end();
-    }
+app.use('/', index);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-// Listen on port 3000, IP defaults to 127.0.0.1
-server.listen(port);
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-// Put a friendly message on the terminal
-console.log('Server running at http://127.0.0.1:' + port + '/');
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
+
+var connection = mysql.createConnection({
+  host: 'aa1n8jh2opxn3kh.ciminup0pyrz.us-west-1.rds.amazonaws.com',
+  user: 'jjraw',
+  password: 'cruzhacks2018',
+  port: '3306'
+});
+
+connection.connect(function (err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+
+  console.log('Connected to database.');
+});
+
+connection.end();
