@@ -1,0 +1,22 @@
+#reviewButton {
+  color: red;
+}
+
+#pinButton {
+  color: blue;
+}
+
+.List {
+  font-size: 10px;
+}
+
+#map {
+  height: 400px;
+  width: 80%;
+}
+
+#infoBox {
+  background: gray;
+  height: 200px;
+  width: 60%;
+}
