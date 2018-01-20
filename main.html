@@ -4,31 +4,32 @@
   <head>
     <title>Need2Go</title>
     <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="PinUser.js"></script>
   </head>
 
   <body ng-app="">
 
-    <button type="button" id="reviewButton">Submit a Review!</button>
-    <button type="button" id="pinButton">Drop a Pin!</button>
-
   	<h1>Need2Go<h1>
 
-    <div id="map"> </div>
+    <center>
+      <div id="map"> </div>
+    </center>
 
-    <script>
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-    </script>
+      <script>
+        function initMap() {
+          var uluru = {lat: -25.363, lng: 131.044};
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: uluru
+          });
+          var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+          });
+        }
+      </script>
 
     <center>
       <div id="infoBox">
@@ -41,6 +42,9 @@
         </ul>
       </div>
     </center>
+
+    <button type="button" id="reviewButton">Submit a Review!</button>
+    <input type="button" value="pinButton" onclick="onPositionUpdate()"></input>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async defer></script>
 
