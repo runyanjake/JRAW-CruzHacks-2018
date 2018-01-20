@@ -50,7 +50,8 @@ var connection = mysql.createConnection({
   host: 'aa1n8jh2opxn3kh.ciminup0pyrz.us-west-1.rds.amazonaws.com',
   user: 'jjraw',
   password: 'cruzhacks2018',
-  port: '3306'
+  port: '3306',
+  database: 'toilet_database'
 });
 
 connection.connect(function (err) {
@@ -61,5 +62,7 @@ connection.connect(function (err) {
 
   console.log('Connected to database.');
 });
+
+
 
 connection.end();
