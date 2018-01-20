@@ -25,8 +25,33 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
+//coordinate object
+var coordinates = function(lats,longs){
+     this.lats = lats;
+     this.longs = longs;
+}
+//initializes empty array
+function initArray(){
+     var coordArray = [];
+     return coordArray;
+}
+//pushes a new coordinate onto the list specified
+function pushCoord(coordArr,lats,longs){
+     var coord = new coordinates(lats,longs);
+     coordArr.push(coord);
+}
+
 //initialize map
 function initMap() {
+    var coordList = initArray();
+    var testCoord = new coordinates(10.1,25.0);
+    //alert(testCoord.longs);
+    coordList.push(testCoord);
+    //alert((coordList[0]).lats);
+    pushCoord(coordList,20.1,2.0);
+    coordList.pop();
+    //alert(coordList.length);
+    //use arrayname.splice(index,number_of_items_to_be_removed,items_to_insert_into_the_array) to edit array
 	//places marker on the below coords on map
 	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
 	var mapOptions = {
