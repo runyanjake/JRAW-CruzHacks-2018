@@ -44,7 +44,10 @@
     </center>
 
     <button type="button" id="reviewButton">Submit a Review!</button>
-    <input type="button" value="pinButton" onclick="onPositionUpdate()"></input>
+    <button type="button" id="pinButton">Drop a Pin!</button>
+    <script> 
+    document.getElementById("pinButton").addEventListener("click", newPinDrop);
+    </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async defer></script>
 

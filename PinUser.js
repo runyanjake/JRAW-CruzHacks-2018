@@ -25,6 +25,10 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
+function printMessage() {
+    console.log("A button was pressed.");
+}
+
 //initialize map
 function initMap() {
 	//places marker on the below coords on map
@@ -78,3 +82,36 @@ function initMap() {
 	}
 	pinCurrLoc();
 }
+
+function newPinDrop(position){
+
+    infoWindow = new google.maps.InfoWindow;
+
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+        });
+    }else{
+        console.out("No geolocation supported, must consent.");
+    }
+        
+    var myLatlng = new google.maps.LatLng(position.lat,position.lng);
+    var mapOptions = {
+        zoom: 4,
+        center: myLatlng
+    }
+        
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    var newMarker = new google.maps.Marker({
+        position: myLatlng,
+        title:"Current Location"
+    });
+    newMarker.setMap(map);
+}
+
+
+
