@@ -1,9 +1,9 @@
 #reviewButton{
-	color:red;
+	color: red;
 }
 
 #pinButton{
-	color:blue;
+	color: blue;
 }
 
 .List{
@@ -13,4 +13,11 @@
 #map{
 	height: 400px;
 	width: 100%;
+}
+
+#infoBox{
+	text-align: center;
+	background: gray;
+	height: 200px;
+	width: 80%;
 }
