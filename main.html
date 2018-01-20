@@ -2,16 +2,35 @@
 
 <html>
   <head>
-    <title>Hello World</title>
+    <title>Need2Go</title>
     <link rel="stylesheet" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   </head>
 
-  <body>
+  <body ng-app="">
 
     <button type="button" id="reviewButton">Submit a Review!</button>
     <button type="button" id="pinButton">Drop a Pin!</button>
 
-  	<h1>Hello World<h1>
+  	<h1>Need2Go<h1>
+
+    <div id="map"> </div>
+
+    <script>
+      function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async defer></script>
 
   	<h2>Hellos<h2>
     <div class="List" id="hello">
