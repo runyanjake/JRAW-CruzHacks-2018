@@ -25,8 +25,9 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
-
+//initialize map
 function initMap() {
+	//places marker on the below coords on map
 	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
 	var mapOptions = {
 		zoom: 1,
