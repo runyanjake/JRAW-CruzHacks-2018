@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app='myApp', ng-controller='myCtrl')
   head
     title Need2Go
     link(rel='stylesheet', href='stylesheets/style.css')
@@ -7,7 +7,7 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
     script(type='text/javascript', src='javascripts/PinUser.js')
     script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap', async='', defer='')
-  body(ng-app='myApp', ng-controller='myCtrl')
+  body
     h1
       | Need2Go
       h1

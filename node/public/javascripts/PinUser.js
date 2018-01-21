@@ -200,5 +200,8 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.rating = "Clean";
     $scope.notes = "I had an amazing experience";
 
-    
+    $http.get("/").then(function (res) {
+        console.log(res.data);
+        $scope.data = res.data;
+    })
 });

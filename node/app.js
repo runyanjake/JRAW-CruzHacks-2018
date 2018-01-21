@@ -67,7 +67,7 @@ connection.connect(function (err) {
 
 });
 
-app.get('/api/toilets', function (req, res, next) {
+app.get('/', function (req, res) {
   var data = {
     "Data": ""
   };
