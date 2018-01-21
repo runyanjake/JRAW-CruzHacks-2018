@@ -16,8 +16,21 @@
   	<h1>Need2Go<h1>
 
     <center> <div id="map"> </div> </center>
+		<div id="form">
+		<table>
+		<tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>
+		<tr><td>Rating:</td> <td><select id='rating'> +
+					<option value='1' SELECTED>1-Terrible</option>
+					<option value='2'>2-Fair</option>
+					<option value='3'>3-Good</option>
+					<option value='4'>4-Very Good</option>
+					<option value='5'>5-Excellent</option>
+					</select> </td></tr>
+					<tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+		</table>
+		</div>
+		<div id="message">Location saved</div>
     <script> function initMap(); </script>
-
     <center>
       <div id="infoBox">
           <ul>
