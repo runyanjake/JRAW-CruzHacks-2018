@@ -25,32 +25,39 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
-
 //coordinate object
-var coordinates = function(lats,longs){
-     this.lats = lats;
-     this.longs = longs;
+var coordinates = function(lats,longs, titles){
+    this.lats = lats;
+    this.longs = longs;
+    this.titles = titles;
 }
+
 //initializes empty array
 function initArray(){
      var coordArray = [];
      return coordArray;
 }
+
 //pushes a new coordinate onto the list specified
-function pushCoord(coordArr,lats,longs){
-     var coord = new coordinates(lats,longs);
+function pushCoord(coordArr,lats,longs, titles){
+     var coord = new coordinates(lats,longs, titles);
      coordArr.push(coord);
 }
 
 //initialize map
 var map, infoWindow;
+
+var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
+var obj = JSON.parse(text);
+
 function initMap() {
+    
     //initialize map
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
         zoom: 20
     });
-
+    
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -80,13 +87,45 @@ function initMap() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
+    
+//  for (var index = 0; index < 5; index++) {
+//      dropRandMarker();
+//  }
+     
+    //------newly added-------//
+    var coordList = initArray();
+//    var testCoord = new coordinates(10.1, 25.0);
+//    coordList.pushCoord(testCoord);
+    pushCoord(coordList, 10.1, 2.0, "Random Marker");
+    pushCoord(coordList, 20.1, 2.0, "Random Marker");
+    //-----------------------//
+    
+     //------newly added-------//
+    var markerList = initArray();
+    for (var index = 0; index < coordList.length; index++) {
+        var pos = new google.maps.LatLng((coordList[index].lats),(coordList[index].longs));
+        
+        markerList[index] = new google.maps.Marker({
+            position: pos,
+            title: coordList[index].titles
+        });
+        markerList[index].setMap(map);
+    }
+    
+//    for (var index = 0; index < markerList.length; index++) {
+//        markerList[index].setMap(map);
+//    }
+    //-------------------------//
+    
 }
 
+// Drops Random Marker
 function dropRandMarker(){
     var randPos = new google.maps.LatLng(Math.random() * 170.0 - 85,Math.random() * 360.0 - 180);
     dropNewMarker(randPos);
 }
 
+// Drops a New Marker
 function dropNewMarker(position){
     map.setCenter(position);
 
@@ -97,6 +136,7 @@ function dropNewMarker(position){
     marker.setMap(map);
 }
 
+// Handles Location Error
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?
@@ -189,8 +229,8 @@ function newPinDrop(position){
     newMarker.setMap(map);
 }
 
-var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
-var obj = JSON.parse(text);  
+//var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
+//var obj = JSON.parse(text);  
 
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope) {
@@ -203,5 +243,3 @@ app.controller('myCtrl', function ($scope) {
     var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
     console.log("Position: " + obj.toilet_lat + ", " + obj.toilet_lon);
     dropNewMarker(newPos);
-
-

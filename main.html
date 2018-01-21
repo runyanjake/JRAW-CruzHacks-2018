@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app="myApp" ng-controller="myCtrl">
   <head>
     <title>Need2Go</title>
     <link rel="stylesheet" href="index.css">
@@ -11,7 +11,7 @@
           defer></script>
   </head>
 
-  <body ng-app="myApp" ng-controller="myCtrl">
+  <body>
 
   	<h1>Need2Go<h1>
 
@@ -35,7 +35,6 @@
     <button type="button" id="randButton">Drop a Pin at a random location!</button>
     <script> document.getElementById("pinButton").addEventListener("click", initMap); </script>
     <script> document.getElementById("randButton").addEventListener("click", dropRandMarker) </script>
-
 
   	<h2>Hellos<h2>
     <div class="List" id="hello">
