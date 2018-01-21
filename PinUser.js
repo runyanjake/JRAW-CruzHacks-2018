@@ -193,5 +193,10 @@ function newPinDrop(position){
     newMarker.setMap(map);
 }
 
-
-
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function ($scope) {
+    $scope.loc_id = 123456;
+    $scope.name = obj.name;
+    $scope.rating = "Clean";
+    $scope.notes = "I had an amazing experience";
+});
