@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
-var index = require('./routes/index');
+var index = require('./routes/index.js');
+var api = require('./routes/api.js')
 var users = require('./routes/users');
 
 var app = express();
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -46,23 +48,3 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var connection = mysql.createConnection({
-  host: 'aa1n8jh2opxn3kh.ciminup0pyrz.us-west-1.rds.amazonaws.com',
-  user: 'jjraw',
-  password: 'cruzhacks2018',
-  port: '3306',
-  database: 'toilet_database'
-});
-
-connection.connect(function (err) {
-  if (err) {
-    console.error('Database connection failed: ' + err.stack);
-    return;
-  }
-
-  console.log('Connected to database.');
-});
-
-
-
-connection.end();
