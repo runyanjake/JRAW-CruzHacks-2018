@@ -3,4 +3,4 @@ Jacob Runyan, Justin Tse, Richard Mao, William Lee. CruzHacks 2018 code reposito
 
 ![alt text][logo]
 
-[logo]: https://github.com/runyanjake/JRAW-CruzHacks-2018/board.png "Logo Title Text 2"
+[logo]: https://github.com/runyanjake/JRAW-CruzHacks-2018/blob/master/board.png "Logo Title Text 2"
