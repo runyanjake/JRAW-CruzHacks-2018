@@ -3,50 +3,55 @@ html(ng-app='myApp', ng-controller='myCtrl')
   head
     title Need2Go
     link(rel='stylesheet', href='stylesheets/style.css')
+    link(href='https://fonts.googleapis.com/css?family=Baloo+Paaji|Itim', rel='stylesheet')
     // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
     script(type='text/javascript', src='javascripts/PinUser.js')
     script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap', async='', defer='')
   body
-    h1
-      | Need2Go
+    #title
       h1
-        center
-          #map  
-        #form
-          table
-            tr
-              td Name:
-              td
-                input#name(type='text')
-            tr
-              td Rating:
-              td
-                select#rating
-                  | +
-                  option(value='1', selected='') 1-Terrible
-                  option(value='2') 2-Fair
-                  option(value='3') 3-Good
-                  option(value='4') 4-Very Good
-                  option(value='5') 5-Excellent
-            tr
-              td
-              td
-                input(type='button', value='Save', onclick='saveData()')
-        #message Location saved
-        script.
-          function initMap();
-        center
-          #infoBox
-            ul
-              li Location ID: {{loc_id}}
-              li Name: {{name}}
-              li Rating: {{rating}}
-              li Notes: {{notes}}
-        // ---  Replace Submit button with Submit tap  ----
-        button#pinButton(type='button') Update Your Location!
-        button#randButton(type='button') Drop a Pin at a random location!
-        script.
-          document.getElementById("pinButton").addEventListener("click", initMap);
-        script.
-          document.getElementById("randButton").addEventListener("click", dropRandMarker)
+        | 🚽Need2Go🚽
+        h1
+          h2 A bathroom review site prototype
+    center
+      #map  
+    #form
+      table
+        tr
+          td Name:
+          td
+            input#name(type='text')
+        tr
+          td Rating:
+          td
+            select#rating
+              | +
+              option(value='1', selected='') 1-Terrible
+              option(value='2') 2-Fair
+              option(value='3') 3-Good
+              option(value='4') 4-Very Good
+              option(value='5') 5-Excellent
+        tr
+          td
+          td
+            input(type='button', value='Save', onclick='saveData()')
+      #message Location saved
+    script.
+      function initMap();
+    center
+      // ---  Replace Submit button with Submit tap  ----
+      button#pinButton.btn.btn-primary(type='button') Update Your Location!
+      button#randButton.btn.btn-info(type='button') Drop a Pin at a random location!
+      script.
+        document.getElementById("pinButton").addEventListener("click", initMap);
+      script.
+        document.getElementById("randButton").addEventListener("click", dropRandMarker)
+      #infoBox
+        ul
+          li#bathroom_name {{name}}
+          li Rating: {{rating}}
+    #footer
+      p Made with 💩 by Richard Mao, William Lee, Jake Runyan, and Justin Tse
+      p Cruzhacks 2018
+      a(href='https://github.com/runyanjake/JRAW-CruzHacks-2018') Github
