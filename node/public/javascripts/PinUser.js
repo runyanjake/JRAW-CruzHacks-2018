@@ -194,9 +194,11 @@ function newPinDrop(position) {
 }
 
 var app = angular.module('myApp', []);
-app.controller('myCtrl', function ($scope) {
+app.controller('myCtrl', function ($scope, $http) {
     $scope.loc_id = 123456;
     $scope.name = obj.name;
     $scope.rating = "Clean";
     $scope.notes = "I had an amazing experience";
+
+    
 });
