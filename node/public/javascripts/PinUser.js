@@ -25,26 +25,34 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
-
 //coordinate object
-var coordinates = function (lats, longs) {
+var coordinates = function (lats, longs, titles) {
     this.lats = lats;
     this.longs = longs;
+    this.titles = titles;
 }
+
 //initializes empty array
 function initArray() {
     var coordArray = [];
     return coordArray;
 }
+
 //pushes a new coordinate onto the list specified
-function pushCoord(coordArr, lats, longs) {
-    var coord = new coordinates(lats, longs);
+function pushCoord(coordArr, lats, longs, titles) {
+    var coord = new coordinates(lats, longs, titles);
     coordArr.push(coord);
 }
 
 //initialize map
 var map, infoWindow;
+
+var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
+
+var toilet = JSON.parse(text);
+
 function initMap() {
+
     //initialize map
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -34.397, lng: 150.644 },
@@ -80,19 +88,95 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+
+    //------newly added-------//
+    var coordList = initArray();
+    //    var testCoord = new coordinates(10.1, 25.0);
+    //    coordList.pushCoord(testCoord);
+    pushCoord(coordList, 10.1, 2.0, "Random Marker");
+    pushCoord(coordList, 20.1, 2.0, "Random Marker");
+    //-----------------------//
+
+    //------newly added-------//
+    var markerList = initArray();
+    for (var index = 0; index < coordList.length; index++) {
+        var pos = new google.maps.LatLng((coordList[index].lats), (coordList[index].longs));
+
+        markerList[index] = new google.maps.Marker({
+            position: pos,
+            title: coordList[index].titles
+        });
+        markerList[index].setMap(map);
+    }
+
+    //    for (var index = 0; index < markerList.length; index++) {
+    //        markerList[index].setMap(map);
+    //    }
+    //-------------------------//
+    infowindow = new google.maps.InfoWindow({
+        content: document.getElementById('form')
+    });
+    messagewindow = new google.maps.InfoWindow({
+        content: document.getElementById('message')
+    });
+    google.maps.event.addListener(map, 'click', function (event) {
+        marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map
+        });
+
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+    });
 }
 
+function saveData() {
+    var name = escape(document.getElementById('name').value);
+    var address = escape(document.getElementById('address').value);
+    var type = document.getElementById('type').value;
+    var latlng = marker.getPosition();
+    var url = 'phpsqlinfo_addrow.php?name=' + name + '&address=' + address +
+        '&type=' + type + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
+
+    downloadUrl(url, function (data, responseCode) {
+
+        if (responseCode == 200 && data.length <= 1) {
+            infowindow.close();
+            messagewindow.open(map, marker);
+        }
+    });
+}
+
+function downloadUrl(url, callback) {
+    var request = window.ActiveXObject ?
+        new ActiveXObject('Microsoft.XMLHTTP') :
+        new XMLHttpRequest;
+
+    request.onreadystatechange = function () {
+        if (request.readyState == 4) {
+            request.onreadystatechange = doNothing;
+            callback(request.responseText, request.status);
+        }
+    };
+
+    request.open('GET', url, true);
+    request.send(null);
+}
+
+function doNothing() {
+}
+
+// Drops Random Marker
 function dropRandMarker() {
-    var randPos = new google.maps.LatLng(Math.random() * 100.0 - 80, Math.random() * 200.0 - 80);
+    var randPos = new google.maps.LatLng(Math.random() * 170.0 - 85, Math.random() * 360.0 - 180);
     dropNewMarker(randPos);
 }
 
+// Drops a New Marker
 function dropNewMarker(position) {
-    var mapOptions = {
-        zoom: 4,
-        center: position
-    }
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map.setCenter(position);
 
     var marker = new google.maps.Marker({
         position: position,
@@ -101,6 +185,7 @@ function dropNewMarker(position) {
     marker.setMap(map);
 }
 
+// Handles Location Error
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
@@ -193,10 +278,21 @@ function newPinDrop(position) {
     newMarker.setMap(map);
 }
 
+//var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
+//var obj = JSON.parse(text);  
+
+//var app = angular.module('myApp', []);
+//app.controller('myCtrl', function ($scope) {
+//    $scope.loc_id = 123456;
+//    $scope.name = toilet.name;
+//    $scope.rating = "Clean";
+//    $scope.notes = "I had an amazing experience";
+//});
+
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope, $http) {
     $scope.loc_id = 123456;
-    $scope.name = obj.name;
+    $scope.name = toilet.name;
     $scope.rating = "Clean";
     $scope.notes = "I had an amazing experience";
 

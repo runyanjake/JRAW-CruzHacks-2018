@@ -13,6 +13,27 @@ html(ng-app='myApp', ng-controller='myCtrl')
       h1
         center
           #map  
+        #form
+          table
+            tr
+              td Name:
+              td
+                input#name(type='text')
+            tr
+              td Rating:
+              td
+                select#rating
+                  | +
+                  option(value='1', selected='') 1-Terrible
+                  option(value='2') 2-Fair
+                  option(value='3') 3-Good
+                  option(value='4') 4-Very Good
+                  option(value='5') 5-Excellent
+            tr
+              td
+              td
+                input(type='button', value='Save', onclick='saveData()')
+        #message Location saved
         script.
           function initMap();
         center
@@ -22,27 +43,10 @@ html(ng-app='myApp', ng-controller='myCtrl')
               li Name: {{name}}
               li Rating: {{rating}}
               li Notes: {{notes}}
-          script.
-            var text = '{ "toilet_lat":"33.44", "toilet_lon":"-134", "name":"Uluru"}';
-            var obj = JSON.parse(text);
-            var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
-            dropNewMarker(newPos);
-        button#reviewButton(type='button') Submit a Review!
-        button#pinButton(type='button') Drop a Pin!
+        // ---  Replace Submit button with Submit tap  ----
+        button#pinButton(type='button') Update Your Location!
         button#randButton(type='button') Drop a Pin at a random location!
         script.
           document.getElementById("pinButton").addEventListener("click", initMap);
         script.
           document.getElementById("randButton").addEventListener("click", dropRandMarker)
-        h2
-          | Hellos
-          h2
-            #hello.List
-              p Here is a list of the various hellos
-              ul
-                li Hola
-                li Bonjour
-                li Konnichiwa
-              div
-                #world
-                  p World
