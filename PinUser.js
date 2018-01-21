@@ -88,11 +88,7 @@ function dropRandMarker(){
 }
 
 function dropNewMarker(position){
-    var mapOptions = {
-        zoom: 4,
-        center: position
-    }
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map.setCenter(position);
 
     var marker = new google.maps.Marker({
         position: position,
