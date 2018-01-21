@@ -47,6 +47,8 @@ function pushCoord(coordArr, lats, longs, titles) {
 //initialize map
 var map, infoWindow;
 
+var marker;
+
 var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
 
 var toilet = JSON.parse(text);
@@ -125,47 +127,10 @@ function initMap() {
             map: map
         });
 
-
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, marker);
         });
     });
-}
-
-function saveData() {
-    var name = escape(document.getElementById('name').value);
-    var address = escape(document.getElementById('address').value);
-    var type = document.getElementById('type').value;
-    var latlng = marker.getPosition();
-    var url = 'phpsqlinfo_addrow.php?name=' + name + '&address=' + address +
-        '&type=' + type + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
-
-    downloadUrl(url, function (data, responseCode) {
-
-        if (responseCode == 200 && data.length <= 1) {
-            infowindow.close();
-            messagewindow.open(map, marker);
-        }
-    });
-}
-
-function downloadUrl(url, callback) {
-    var request = window.ActiveXObject ?
-        new ActiveXObject('Microsoft.XMLHTTP') :
-        new XMLHttpRequest;
-
-    request.onreadystatechange = function () {
-        if (request.readyState == 4) {
-            request.onreadystatechange = doNothing;
-            callback(request.responseText, request.status);
-        }
-    };
-
-    request.open('GET', url, true);
-    request.send(null);
-}
-
-function doNothing() {
 }
 
 // Drops Random Marker
@@ -178,11 +143,11 @@ function dropRandMarker() {
 function dropNewMarker(position) {
     map.setCenter(position);
 
-    var marker = new google.maps.Marker({
+    var mark = new google.maps.Marker({
         position: position,
         title: "Random Marker"
     });
-    marker.setMap(map);
+    mark.setMap(map);
 }
 
 // Handles Location Error
@@ -295,6 +260,47 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.name = toilet.name;
     $scope.rating = "Clean";
     $scope.notes = "I had an amazing experience";
+
+    $scope.saveData = function() {
+        var name = escape(document.getElementById('name').value);
+        var rating = document.getElementById('rating').value;
+        var lat = marker.getPosition().lat;
+        var lon = marker.getPosition().lng;
+
+        var newToilet =
+            {
+                "toilet_lat": lat,
+                "toilet_lon": lon,
+                "name": name
+            };
+        $http.post("/api/toilets", newToilet)
+            .success(function (data, status, headers, config) {
+                console.log("it worked");
+            })
+            .error(function (data, status, header, config) {
+        });
+
+        // var newRating =
+        //     {
+        //         "id": NULL,
+        //         "toilet_id": id,
+        //         "toilet_lon": category,
+        //         "name": name
+        //     };
+        //post entry
+    }
+
+
+    // $http.post("/api/entry", data, config)
+    //     .success(function (data, status, headers, config) {
+    //     })
+    //     .error(function (data, status, header, config) {
+    //     });
+
+    // $http.get("/api/entry", { params: { toilet_id: id } }).then(function(res) {
+    //     console.log(res.data);
+    //     $scope.data = res.data;
+    // }) ID selection incomplete
 
     $http.get("/api/toilets").then(function (res) {
         console.log(res.data);
