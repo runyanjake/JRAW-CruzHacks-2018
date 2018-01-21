@@ -18,17 +18,18 @@
     </center>
 
       <script>
-        function initMap() {
-          var uluru = {lat: -25.363, lng: 131.044};
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: uluru
-          });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
-        }
+        // function initMap() {
+        //   var uluru = {lat: -25.363, lng: 131.044};
+        //   var map = new google.maps.Map(document.getElementById('map'), {
+        //     zoom: 4,
+        //     center: uluru
+        //   });
+        //   var marker = new google.maps.Marker({
+        //     position: uluru,
+        //     map: map
+        //   });
+        // }
+        function initMap();
       </script>
 
     <center>
@@ -44,7 +45,10 @@
     </center>
 
     <button type="button" id="reviewButton">Submit a Review!</button>
-    <input type="button" value="pinButton" onclick="onPositionUpdate()"></input>
+    <button type="button" id="pinButton">Drop a Pin!</button>
+    <script> 
+    document.getElementById("pinButton").addEventListener("click", initMap);
+    </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async defer></script>
 

@@ -25,6 +25,7 @@ if(navigator.geolocation){
 */
 //----------------------------------------new working multiple pins-----------------------------------------
 
+
 //coordinate object
 var coordinates = function(lats,longs){
      this.lats = lats;
@@ -42,7 +43,13 @@ function pushCoord(coordArr,lats,longs){
 }
 
 //initialize map
+var map, infoWindow;
 function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 20
+    });
+    infoWindow = new google.maps.InfoWindow;
     var coordList = initArray();
     var testCoord = new coordinates(10.1,25.0);
     //alert(testCoord.longs);
@@ -52,34 +59,63 @@ function initMap() {
     coordList.pop();
     //alert(coordList.length);
     //use arrayname.splice(index,number_of_items_to_be_removed,items_to_insert_into_the_array) to edit array
-	//places marker on the below coords on map
-	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-	var mapOptions = {
-		zoom: 1,
-		center: myLatlng
-	}
-	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	
+    //places marker on the below coords on map
+	// var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+	// var mapOptions = {
+	// 	zoom: 1,
+	// 	center: myLatlng
+	// }
+	// var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-	var marker = new google.maps.Marker({
-		position: myLatlng,
-		title:"mark 1"
-	});
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
-	// To add the marker to the map, call setMap();
-	marker.setMap(map);
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(map);
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
 
-	var myLatlng = new google.maps.LatLng(0.0,0.0);
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+  infoWindow.open(map);
+}
 
-	var marker2 = new google.maps.Marker({
-		position: myLatlng,
-		title:"mark 2"
-	});
+//initialize map
+function oldInitMap() {
+    system.log("initMap");
 
-	// To add the marker to the map, call setMap();
-	marker2.setMap(map);
+    //get my lat/long
+    var myLatlng = new google.maps.LatLng(100,200);
+    //create new map
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    //create new location marker
+    var newLocationMarker = new google.maps.Marker({
+        position: myLatlng,
+        title:"Current Location"
+    });
+    //add to new map
+    newLocationMarker.setMap(map);
 
 	//updates position and plugs it into a new marker that is set onto the map
     function onPositionUpdate(position){
+        system.log("onPositionUpdate");
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
         
@@ -96,6 +132,7 @@ function initMap() {
     }
 	//pulls current lat and long and plugs it into onPositionUpdate
 	function pinCurrLoc(){
+        system.log("pinCurrLoc");
         if(navigator.geolocation)
             navigator.geolocation.getCurrentPosition(onPositionUpdate);
         else
@@ -103,3 +140,46 @@ function initMap() {
 	}
 	pinCurrLoc();
 }
+
+function newPinDrop(position){
+    system.log("newPinDrop");
+
+    //infoWindow = new google.maps.InfoWindow;
+
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+        },function(){
+            console.log("Couldn't get location.");
+        });
+    }else{
+        console.out("No geolocation supported, must consent.");
+    }
+
+    console.log("Test 2: Lat: " + position.lat + " Lng: " + position.lng);
+        
+    //var myLatlng = new google.maps.LatLng(position.lat,position.lng);
+    var myLatlng = new google.maps.LatLng(100,200); //<<<<<<this is what causes permission request
+    //bad?
+    var mapOptions = {
+        zoom: 4,
+        center: myLatlng
+    }
+
+    console.log("Test 3: Lat: " + position.lat + " Lng: " + position.lng);
+        
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    ///bad?
+
+    var newMarker = new google.maps.Marker({
+        position: myLatlng,
+        title:"Current Location"
+    });
+    newMarker.setMap(map);
+}
+
+
+
