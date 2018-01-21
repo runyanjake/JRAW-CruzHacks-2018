@@ -46,6 +46,7 @@ function pushCoord(coordArr,lats,longs, titles){
 
 //initialize map
 var map, infoWindow;
+var currentPosition;
 
 var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
 
@@ -70,9 +71,13 @@ function initMap() {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
+        currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
         var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
         };
 
         infoWindow = new google.maps.InfoWindow;
@@ -188,6 +193,11 @@ function dropNewMarker(position){
         title: "Random Marker"
     });
     marker.setMap(map);
+}
+
+// Drops a New Marker
+function dropMarkerAtLocation(){
+    dropNewMarker(currentPosition);
 }
 
 // Handles Location Error

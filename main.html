@@ -38,9 +38,11 @@
     <center>
       <!-----  Replace Submit button with Submit tap  ------>
       <button type="button" id="pinButton" class="btn btn-primary">Update Your Location!</button>
+      <button type="button" id="youButton" class="btn btn-info">Drop a Pin at your location!</button>
       <button type="button" id="randButton" class="btn btn-info">Drop a Pin at a random location!</button>
       <script> document.getElementById("pinButton").addEventListener("click", initMap); </script>
       <script> document.getElementById("randButton").addEventListener("click", dropRandMarker) </script>
+      <script> document.getElementById("youButton").addEventListener("click", dropMarkerAtLocation) </script>
       <div id="infoBox">
           <ul>
               <li id="bathroom_name">{{name}}</li>
