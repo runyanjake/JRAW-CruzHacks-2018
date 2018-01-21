@@ -142,11 +142,9 @@ function initMap() {
 
 function saveData() {
     var name = escape(document.getElementById('name').value);
-    var address = escape(document.getElementById('address').value);
-    var type = document.getElementById('type').value;
+    var rating = escape(document.getElementById('rating').value);
     var latlng = marker.getPosition();
-    var url = 'phpsqlinfo_addrow.php?name=' + name + '&address=' + address +
-              '&type=' + type + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
+    var url = 'phpsqlinfo_addrow.php?name=' + name + '&rating=' + rating + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
 
     downloadUrl(url, function(data, responseCode) {
 
