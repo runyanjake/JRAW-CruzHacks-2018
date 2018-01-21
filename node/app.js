@@ -5,9 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-var MysqlJson = require('mysql-json');
 
 var index = require('./routes/index.js');
+var api = require('./routes/api.js')
 var users = require('./routes/users');
 
 var app = express();
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/api', index);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,39 +48,3 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var connection = new MysqlJson({
-  host: 'aa1n8jh2opxn3kh.ciminup0pyrz.us-west-1.rds.amazonaws.com',
-  user: 'jjraw',
-  password: 'cruzhacks2018',
-  port: '3306',
-  database: 'toilet_database'
-});
-
-connection.connect(function (err) {
-  if (err) {
-    console.error('Database connection failed: ' + err.stack);
-    return;
-  }
-
-  console.log('Connected to database.');
-
-
-});
-
-app.get('/', function (req, res) {
-  var data = {
-    "Data": ""
-  };
-  connection.query("SELECT * FROM entries_table", function (err, rows, fields) {
-
-    data["Data"] = rows;
-    console.log(data);
-    res.json(data);
-  });
-});
-
-app.get('*', function (req, res) {
-  res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-});
-
-app.listen(8080);
