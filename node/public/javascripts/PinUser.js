@@ -1,30 +1,3 @@
-//this function sets the min on the map and sets the camera to it
-/*function pinMe(latit, long) {
-    var coords = {lat: latit, lng: long};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: coords
-    });
-    var marker = new google.maps.Marker({
-        position: coords,
-        map: map
-    });
-}
-//this function gets the current position
-function onPositionUpdate(position){
-    var lat = position.coords.latitude;
-    var lng = position.coords.longitude;
-    pinMe(lat, lng);
-}
-//this function is the main function. It calls all the functions either directly and/or indirectly
-if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(onPositionUpdate);
-}else{
-    alert("geolocation is not currently available");
-}
-*/
-//----------------------------------------new working multiple pins-----------------------------------------
-
 //coordinate object
 var coordinates = function (lats, longs, titles) {
     this.lats = lats;
@@ -45,17 +18,17 @@ function pushCoord(coordArr, lats, longs, titles) {
 }
 
 //initialize map
-var map, infoWindow;
+var map, infoWindow, toilet_obj;
+var coordList, markerList;
 
-var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
 
-var toilet = JSON.parse(text);
+// Just wrapped the initMap function and the ones following it with the Angulur Controller.  Can only access the contents of the relation from the toilet database in the scope of the angular controller.  If accessed outside of its scope, it is undefined.  Since it was undefined, there was difficulty in finding its length.  We believe res.data["Data"] is an array at the moment.
+// Richard is in the process of trying to post.
 
 function initMap() {
-
     //initialize map
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -34.397, lng: 150.644 },
+        center: { lat: 37.0003729, lng: -122.06236639999997 },
         zoom: 20
     });
 
@@ -69,16 +42,8 @@ function initMap() {
 
             infoWindow = new google.maps.InfoWindow;
             infoWindow.setPosition(pos);
-            infoWindow.setContent('You Are Here.');
+            infoWindow.setContent('Current Location.');
             infoWindow.open(map);
-
-            var coordList = initArray();
-            var testCoord = new coordinates(10.1, 25.0);
-
-            coordList.push(testCoord);
-
-            pushCoord(coordList, 20.1, 2.0);
-            coordList.pop();
 
             map.setCenter(pos);
         }, function () {
@@ -89,30 +54,6 @@ function initMap() {
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
-    //------newly added-------//
-    var coordList = initArray();
-    //    var testCoord = new coordinates(10.1, 25.0);
-    //    coordList.pushCoord(testCoord);
-    pushCoord(coordList, 10.1, 2.0, "Random Marker");
-    pushCoord(coordList, 20.1, 2.0, "Random Marker");
-    //-----------------------//
-
-    //------newly added-------//
-    var markerList = initArray();
-    for (var index = 0; index < coordList.length; index++) {
-        var pos = new google.maps.LatLng((coordList[index].lats), (coordList[index].longs));
-
-        markerList[index] = new google.maps.Marker({
-            position: pos,
-            title: coordList[index].titles
-        });
-        markerList[index].setMap(map);
-    }
-
-    //    for (var index = 0; index < markerList.length; index++) {
-    //        markerList[index].setMap(map);
-    //    }
-    //-------------------------//
     infowindow = new google.maps.InfoWindow({
         content: document.getElementById('form')
     });
@@ -131,6 +72,49 @@ function initMap() {
         });
     });
 }
+
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function ($scope, $http) {
+//    $scope.loc_id = 123456;
+    //$scope.name = toilet.name;
+//    $scope.rating = "Clean";
+//    $scope.notes = "I had an amazing experience";
+
+    $http.get("/api/toilets").then(function (res) {
+        //$scope.name = res.data["Data"][0].toilet_name;
+        $scope.obj = res.data["Data"];
+        toilet_obj = $scope.obj;
+        coordList = initArray();
+        
+        // Initialize array of coordinates
+        var itor = 0;
+        while (toilet_obj[itor] != null) {
+            var lat = toilet_obj[itor].toilet_lat;
+            var lon = toilet_obj[itor].toilet_lon;
+            var name = toilet_obj[itor].toilet_name;
+            pushCoord(coordList, lat, lon, name);
+            itor++;
+        }
+        
+        // Initialize array of markers
+        // Set all markers from database
+        markerList = initArray();
+        itor = 0;
+        while (coordList[itor] != null) {
+           var pos = new google.maps.LatLng((coordList[itor].lats),   (coordList[itor].longs));
+            
+            markerList[itor] = new google.maps.Marker({
+                position: pos,
+                title: coordList[itor].titles
+            });
+            markerList[itor].setMap(map);
+            
+            itor++;
+        }
+    });
+});
+
 
 function saveData() {
     var name = escape(document.getElementById('name').value);
@@ -165,9 +149,6 @@ function downloadUrl(url, callback) {
     request.send(null);
 }
 
-function doNothing() {
-}
-
 // Drops Random Marker
 function dropRandMarker() {
     var randPos = new google.maps.LatLng(Math.random() * 170.0 - 85, Math.random() * 360.0 - 180);
@@ -192,50 +173,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
-}
-
-//initialize map
-function oldInitMap() {
-    system.log("initMap");
-
-    //get my lat/long
-    var myLatlng = new google.maps.LatLng(100, 200);
-    //create new map
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    //create new location marker
-    var newLocationMarker = new google.maps.Marker({
-        position: myLatlng,
-        title: "Current Location"
-    });
-    //add to new map
-    newLocationMarker.setMap(map);
-
-    //updates position and plugs it into a new marker that is set onto the map
-    function onPositionUpdate(position) {
-        system.log("onPositionUpdate");
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
-
-        var myLatlng = new google.maps.LatLng(lat, lng);
-        var mapOptions = {
-            zoom: 4,
-            center: myLatlng
-        }
-        var marker3 = new google.maps.Marker({
-            position: myLatlng,
-            title: "current location"
-        });
-        marker3.setMap(map);
-    }
-    //pulls current lat and long and plugs it into onPositionUpdate
-    function pinCurrLoc() {
-        system.log("pinCurrLoc");
-        if (navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(onPositionUpdate);
-        else
-            alert("navigator.geolocation is not available");
-    }
-    pinCurrLoc();
 }
 
 function newPinDrop(position) {
@@ -289,15 +226,14 @@ function newPinDrop(position) {
 //    $scope.notes = "I had an amazing experience";
 //});
 
-var app = angular.module('myApp', []);
-app.controller('myCtrl', function ($scope, $http) {
-    $scope.loc_id = 123456;
-    $scope.name = toilet.name;
-    $scope.rating = "Clean";
-    $scope.notes = "I had an amazing experience";
-
-    $http.get("/api/toilets").then(function (res) {
-        console.log(res.data);
-        $scope.data = res.data;
-    })
-});
+//var app = angular.module('myApp', []);
+//app.controller('myCtrl', function ($scope, $http) {
+////    $scope.loc_id = 123456;
+//    //$scope.name = toilet.name;
+////    $scope.rating = "Clean";
+////    $scope.notes = "I had an amazing experience";
+//
+//    $http.get("/api/toilets").then(function (res) {
+//        $scope.name = res.data["Data"][0].toilet_name;
+//    }); 
+//});
