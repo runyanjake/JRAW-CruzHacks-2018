@@ -4,6 +4,7 @@
   <head>
     <title>Need2Go</title>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Paaji|Itim" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script type="text/javascript" src="PinUser.js"></script>
@@ -12,8 +13,10 @@
   </head>
 
   <body>
-
-  	<h1>Need2Go<h1>
+    <div id='title'>
+  	<h1>🚽Need2Go🚽<h1>
+    <h2>A bathroom review site prototype</h2>
+    </div>
 
     <center> <div id="map"> </div> </center>
 		<div id="form">
@@ -28,24 +31,28 @@
 					</select> </td></tr>
 					<tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
 		</table>
-		</div>
-		<div id="message">Location saved</div>
+    <div id="message">Location saved</div>
+  </div>
+		
     <script> function initMap(); </script>
     <center>
+      <!-----  Replace Submit button with Submit tap  ------>
+      <button type="button" id="pinButton" class="btn btn-primary">Update Your Location!</button>
+      <button type="button" id="randButton" class="btn btn-info">Drop a Pin at a random location!</button>
+      <script> document.getElementById("pinButton").addEventListener("click", initMap); </script>
+      <script> document.getElementById("randButton").addEventListener("click", dropRandMarker) </script>
       <div id="infoBox">
           <ul>
-              <li>Location ID: {{loc_id}}</li>
-              <li>Name: {{name}}</li>
+              <li id="bathroom_name">{{name}}</li>
               <li>Rating: {{rating}}</li>
-              <li>Notes: {{notes}}</li>
           </ul>
       </div>
         
     </center>
-    <!-----  Replace Submit button with Submit tap  ------>
-    <button type="button" id="pinButton">Update Your Location!</button>
-    <button type="button" id="randButton">Drop a Pin at a random location!</button>
-    <script> document.getElementById("pinButton").addEventListener("click", initMap); </script>
-    <script> document.getElementById("randButton").addEventListener("click", dropRandMarker) </script>
+    <div id='footer'>
+      <p>Made with 💩 by Richard Mao, William Lee, Jake Runyan, and Justin Tse</p>
+      <p>Cruzhacks 2018</p>
+      <a href="https://github.com/runyanjake/JRAW-CruzHacks-2018">Github</a>
+    </div>
   </body>
 </html>

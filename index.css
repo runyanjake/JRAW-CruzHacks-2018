@@ -1,11 +1,3 @@
-#reviewButton{
-	color: red;
-}
-
-#pinButton{
-	color: blue;
-}
-
 .List{
 	font-size: 10px;
 }
@@ -13,10 +5,49 @@
 #map{
 	height: 400px;
 	width: 80%;
+	border-radius: 20px;
+	border-style: double;
 }
 
 #infoBox{
-	background: gray;
-	height: 200px;
+	background: rgb(218, 218, 218);
+	height: fit-content;
 	width: 60%;
+	border-radius: 20px;
+}
+
+h1 {
+	font-size: 50px;
+	text-align: center;
+	font-family: 'Baloo Paaji',
+	cursive;
+}
+
+h2 {
+	font-size: 30px;
+	text-align: center;
+}
+
+#title {
+	line-height: 30%;
+}
+
+body{
+	background-color: rgb(247, 219, 129);
+	font-family: 'Itim',
+	cursive;
+}
+
+#footer{
+	text-align: center;
+	font-size: 16px;
+	line-height: 50%;
+}
+
+#bathroom_name{
+	font-size: 40px;
+}
+
+li{
+	list-style-type: none;
 }
