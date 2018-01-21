@@ -83,7 +83,7 @@ function initMap() {
 }
 
 function dropRandMarker(){
-    var randPos = new google.maps.LatLng(Math.random() * 100.0 - 80,Math.random() * 200.0 - 80);
+    var randPos = new google.maps.LatLng(Math.random() * 170.0 - 85,Math.random() * 360.0 - 180);
     dropNewMarker(randPos);
 }
 
@@ -189,6 +189,9 @@ function newPinDrop(position){
     newMarker.setMap(map);
 }
 
+var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
+var obj = JSON.parse(text);  
+
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope) {
     $scope.loc_id = 123456;
@@ -196,3 +199,9 @@ app.controller('myCtrl', function ($scope) {
     $scope.rating = "Clean";
     $scope.notes = "I had an amazing experience";
 });
+
+    var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
+    console.log("Position: " + obj.toilet_lat + ", " + obj.toilet_lon);
+    dropNewMarker(newPos);
+
+

@@ -9,20 +9,14 @@
     <script type="text/javascript" src="PinUser.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async
           defer></script>
-
   </head>
 
   <body ng-app="myApp" ng-controller="myCtrl">
 
   	<h1>Need2Go<h1>
 
-    <center>
-      <div id="map"> </div>
-    </center>
-
-      <script>
-        function initMap();
-      </script>
+    <center> <div id="map"> </div> </center>
+    <script> function initMap(); </script>
 
     <center>
       <div id="infoBox">
@@ -34,25 +28,13 @@
           </ul>
       </div>
         
-        <script>
-            var text = '{ "toilet_lat":"33.44", "toilet_lon":"-134", "name":"Uluru"}';
-            var obj = JSON.parse(text);
-            
-            var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
-            dropNewMarker(newPos);
-        </script>
-        
     </center>
 
     <button type="button" id="reviewButton">Submit a Review!</button>
-    <button type="button" id="pinButton">Drop a Pin!</button>
+    <button type="button" id="pinButton">Update Your Location!</button>
     <button type="button" id="randButton">Drop a Pin at a random location!</button>
-    <script> 
-    document.getElementById("pinButton").addEventListener("click", initMap);
-    </script>
-    <script>
-    document.getElementById("randButton").addEventListener("click", dropRandMarker)
-    </script>
+    <script> document.getElementById("pinButton").addEventListener("click", initMap); </script>
+    <script> document.getElementById("randButton").addEventListener("click", dropRandMarker) </script>
 
 
   	<h2>Hellos<h2>
