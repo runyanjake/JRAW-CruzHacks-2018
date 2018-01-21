@@ -9,7 +9,7 @@
     <script type="text/javascript" src="PinUser.js"></script>
   </head>
 
-  <body ng-app="">
+  <body>
 
   	<h1>Need2Go<h1>
 
@@ -33,15 +33,31 @@
       </script>
 
     <center>
-      <div id="infoBox">
-        <ul>
-          <li>Location ID: UNKNOWN</li>
-          <li>Location: UNKNOWN</li>
-          <li>Name: UNKNOWN</li>
-          <li>Rating: UNKNOWN</li>
-          <li>Notes: Scromit City</li>
-        </ul>
+      <div id="infoBox" ng-app="myApp" ng-controller="myCtrl">
+          <ul>
+              <li>Location ID: {{loc_id}}</li>
+              <li>Name: {{name}}</li>
+              <li>Rating: {{rating}}</li>
+              <li>Notes: {{notes}}</li>
+          </ul>
       </div>
+        
+        <script>
+            var text = '{ "toilet_lat":"33.44", "toilet_lon":"-134", "name":"Uluru"}';
+            var obj = JSON.parse(text);
+            
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.loc_id = 123456;
+                $scope.name = obj.name;
+                $scope.rating = "Clean";
+                $scope.notes = "I had an amazing experience";
+            });
+            
+            var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
+            dropNewMarker(newPos);
+        </script>
+        
     </center>
 
     <button type="button" id="reviewButton">Submit a Review!</button>
