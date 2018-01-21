@@ -48,7 +48,16 @@ function pushCoord(coordArr,lats,longs, titles){
 var map, infoWindow;
 
 var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
-var obj = JSON.parse(text);
+
+var toilet = JSON.parse(text);
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function ($scope) {
+    $scope.loc_id = 123456;
+    $scope.name = toilet.name;
+    $scope.rating = "Clean";
+    $scope.notes = "I had an amazing experience";
+});
 
 function initMap() {
     
@@ -87,10 +96,6 @@ function initMap() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
-    
-//  for (var index = 0; index < 5; index++) {
-//      dropRandMarker();
-//  }
      
     //------newly added-------//
     var coordList = initArray();
@@ -232,14 +237,10 @@ function newPinDrop(position){
 //var text = '{ "toilet_lat":"33.44", "toilet_lon":"-34", "name":"Uluru"}';
 //var obj = JSON.parse(text);  
 
-var app = angular.module('myApp', []);
-app.controller('myCtrl', function ($scope) {
-    $scope.loc_id = 123456;
-    $scope.name = obj.name;
-    $scope.rating = "Clean";
-    $scope.notes = "I had an amazing experience";
-});
-
-    var newPos = new google.maps.LatLng(obj.toilet_lat, obj.toilet_lon);
-    console.log("Position: " + obj.toilet_lat + ", " + obj.toilet_lon);
-    dropNewMarker(newPos);
+//var app = angular.module('myApp', []);
+//app.controller('myCtrl', function ($scope) {
+//    $scope.loc_id = 123456;
+//    $scope.name = toilet.name;
+//    $scope.rating = "Clean";
+//    $scope.notes = "I had an amazing experience";
+//});
