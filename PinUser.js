@@ -82,6 +82,25 @@ function initMap() {
   }
 }
 
+function dropRandMarker(){
+    var randPos = new google.maps.LatLng(Math.random() * 100.0 - 80,Math.random() * 200.0 - 80);
+    dropNewMarker(randPos);
+}
+
+function dropNewMarker(position){
+    var mapOptions = {
+        zoom: 4,
+        center: position
+    }
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    var marker = new google.maps.Marker({
+        position: position,
+        title: "Random Marker"
+    });
+    marker.setMap(map);
+}
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?

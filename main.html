@@ -46,8 +46,12 @@
 
     <button type="button" id="reviewButton">Submit a Review!</button>
     <button type="button" id="pinButton">Drop a Pin!</button>
+    <button type="button" id="randButton">Drop a Pin at a random location!</button>
     <script> 
     document.getElementById("pinButton").addEventListener("click", initMap);
+    </script>
+    <script>
+    document.getElementById("randButton").addEventListener("click", dropRandMarker)
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5YZHiXCCPhqSuJfBMQcyhvtcOvJE6qGQ&callback=initMap" async defer></script>
